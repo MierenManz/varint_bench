@@ -36,7 +36,7 @@ export function jsDecodeV1(input: Uint8Array): bigint {
     // then write the intermediate value to the empty "slot"
     if ((byte & 0x80) !== 0x80) {
       // if the first slot is taken. Take the second slot
-      u32View[Number(i > 4)] = intermediate;
+      u32View[Number(i > 3)] = intermediate;
       break;
     }
   }
