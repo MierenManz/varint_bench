@@ -25,8 +25,8 @@ const STD_RESULTS = [
   SINGLE,
   ONE_BYTE,
   TWO_COMPLEMENTS,
-  MAX_32,
-  MAX_VAL
+  MAX_VAL,
+  MAX_32
 ].map((x) => stdDecode(x)[0]);
 
 Deno.test({
