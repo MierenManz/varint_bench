@@ -58,7 +58,7 @@ Deno.test({
 });
 
 Deno.test({
-  name: "V3",
+  name: "V4",
   fn: () => {
     assertEquals(jsDecodeV4(SINGLE), STD_RESULTS[0]);
     assertEquals(jsDecodeV4(ONE_BYTE), STD_RESULTS[1]);
