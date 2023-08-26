@@ -26,7 +26,7 @@ export function jsDecodeV4(input: Uint8Array): bigint {
       U32_VIEW[0] = intermediate;
       // set `intermediate` to the remaining 3 bits
       // We only want the remaining three bits because the other 4 have been "consumed" on line 21
-      intermediate = (byte >>> 3) & 0x07;
+      intermediate = (byte >>> 4) & 0x07;
       // set `position` to -4 because later 7 will be added, making it 3
       position = -4;
     }
