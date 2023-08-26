@@ -26,7 +26,7 @@ const STD_RESULTS = [
   ONE_BYTE,
   TWO_COMPLEMENTS,
   MAX_VAL,
-  MAX_32
+  MAX_32,
 ].map((x) => stdDecode(x)[0]);
 
 Deno.test({
@@ -72,3 +72,4 @@ Deno.test({
     assertEquals(jsDecodeV4(MAX_32), STD_RESULTS[4]);
   },
 });
+jsDecodeV4(MAX_32), STD_RESULTS[4];
