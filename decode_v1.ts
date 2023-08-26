@@ -16,7 +16,7 @@ export function jsDecodeV1(input: Uint8Array): bigint {
     // 3. Bitwise OR it with the intermediate value
     // QUIRK: in the 5th (and 10th) iteration of this loop it will overflow on the shift.
     // This causes only the lower 4 bits to be shifted into place and removing the upper 3 bits
-    intermediate |= (byte & 0x7F) << position;
+    intermediate |= (byte & 0b01111111) << position;
 
     // if the intermediate value is full. Write it to the view
     // Else just add 7 to the position
@@ -25,7 +25,7 @@ export function jsDecodeV1(input: Uint8Array): bigint {
       u32View[0] = intermediate;
       // set `intermediate` to the remaining 3 bits
       // We only want the remaining three bits because the other 4 have been "consumed" on line 21
-      intermediate = (byte >>> 4) & 0x07;
+      intermediate = (byte & 0b01110000) >>> 4;
       // set `positon` to 3 because we have written 3 bits
       position = 3;
     } else {
@@ -34,7 +34,7 @@ export function jsDecodeV1(input: Uint8Array): bigint {
 
     // if no continuation bit.
     // then write the intermediate value to the empty "slot"
-    if ((byte & 0x80) !== 0x80) {
+    if ((byte & 0b10000000) !== 0b10000000) {
       // if the first slot is taken. Take the second slot
       u32View[Number(i > 3)] = intermediate;
       break;
