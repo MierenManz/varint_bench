@@ -4,6 +4,7 @@ import { jsDecodeV2 } from "./decode_v2.ts";
 import { jsDecodeV3 } from "./decode_v3.ts";
 import { jsDecodeV4 } from "./decode_v4.ts";
 import { stdDecode } from "./deps.ts";
+import { jsDecodeV5 } from "./decode_v5.ts";
 
 const SINGLE = Uint8Array.of(0x01);
 const ONE_BYTE = Uint8Array.of(0xFF, 0x01);
@@ -72,4 +73,14 @@ Deno.test({
     assertEquals(jsDecodeV4(MAX_32), STD_RESULTS[4]);
   },
 });
-jsDecodeV4(MAX_32), STD_RESULTS[4];
+
+Deno.test({
+  name: "V5",
+  fn: () => {
+    assertEquals(jsDecodeV5(SINGLE), STD_RESULTS[0]);
+    assertEquals(jsDecodeV5(ONE_BYTE), STD_RESULTS[1]);
+    assertEquals(jsDecodeV5(TWO_COMPLEMENTS), STD_RESULTS[2]);
+    assertEquals(jsDecodeV5(MAX_VAL), STD_RESULTS[3]);
+    assertEquals(jsDecodeV5(MAX_32), STD_RESULTS[4]);
+  },
+});

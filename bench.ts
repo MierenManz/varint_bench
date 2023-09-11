@@ -4,6 +4,7 @@ import { jsDecodeV1 } from "./decode_v1.ts";
 import { jsDecodeV2 } from "./decode_v2.ts";
 import { jsDecodeV3 } from "./decode_v3.ts";
 import { jsDecodeV4 } from "./decode_v4.ts";
+import { jsDecodeV5 } from "./decode_v5.ts";
 
 const SINGLE = Uint8Array.of(0x01);
 const ONE_BYTE = Uint8Array.of(0xFF, 0x01);
@@ -96,5 +97,16 @@ Deno.bench({
     jsDecodeV4(ONE_BYTE);
     jsDecodeV4(TWO_COMPLEMENTS);
     jsDecodeV4(MAX_VAL);
+  },
+});
+
+Deno.bench({
+  name: "js Decode V5",
+  group: "a",
+  fn: () => {
+    jsDecodeV5(SINGLE);
+    jsDecodeV5(ONE_BYTE);
+    jsDecodeV5(TWO_COMPLEMENTS);
+    jsDecodeV5(MAX_VAL);
   },
 });
