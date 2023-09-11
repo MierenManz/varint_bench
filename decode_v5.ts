@@ -8,7 +8,7 @@ export function jsDecodeV5(input: Uint8Array): bigint {
   let position = 0;
   let i = 0;
 
-  let byte = 0;
+  let byte = input[i];
   do {
     byte = input[i];
     if (i === 11) throw new Error("Maximum size reached");
