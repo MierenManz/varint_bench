@@ -35,7 +35,6 @@ Deno.bench({
 
 Deno.bench({
   name: "Js BigInt Decode",
-  baseline: true,
   group: "a",
   fn: () => {
     bigintDecode(SINGLE);
