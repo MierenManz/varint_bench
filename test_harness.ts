@@ -45,20 +45,20 @@ export function runTests(fn: Fn, exceptions = false) {
       for (const i of data) encodeDecode(i, fn);
       for (let i = 0x7n; i < MaxUInt64; i <<= 1n) encodeDecode(i, fn);
     });
-    // if (exceptions) {
-    //   await step("Overflow", () => {
-    //     // deno-fmt-ignore
-    //     const data = Uint8Array.of(
-    //       255, 255, 255,
-    //       255, 255, 255,
-    //       255, 255, 255, 2
-    //     );
-    //     assertThrows(() => fn(data), RangeError);
-    //   });
+    if (exceptions) {
+      await step("Overflow", () => {
+        // deno-fmt-ignore
+        const data = Uint8Array.of(
+          255, 255, 255,
+          255, 255, 255,
+          255, 255, 255, 2
+        );
+        assertThrows(() => fn(data), RangeError);
+      });
 
-    //   await step("Empty buffer", () => {
-    //     assertThrows(() => fn(new Uint8Array()), RangeError);
-    //   });
-    // }
+      await step("Empty buffer", () => {
+        assertThrows(() => fn(new Uint8Array()), RangeError);
+      });
+    }
   });
 }
