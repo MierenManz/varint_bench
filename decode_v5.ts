@@ -8,11 +8,17 @@ export function jsDecodeV5(input: Uint8Array): bigint {
   let position = 0;
   let i = 0;
 
+  if (input.length === 0) throw new RangeError("Cannot read empty buffer");
+
   let byte = input[i];
   do {
     byte = input[i];
-    if (i === 11) throw new Error("Maximum size reached");
 
+    // 1. Take the lower 7 bits of the byte.
+    // 2. Shift the bits into the correct position.
+    // 3. Bitwise OR it with the intermediate value
+    // QUIRK: in the 5th (and 10th) iteration of this loop it will overflow on the shift.
+    // This causes only the lower 4 bits to be shifted into place and removing the upper 3 bits
     intermediate |= (byte & 0b01111111) << position;
 
     if (position === 28) {
@@ -30,9 +36,13 @@ export function jsDecodeV5(input: Uint8Array): bigint {
     // Keep going while there is a continuation bit
   } while ((byte & 0b10000000) === 0b10000000);
 
+  if ((i === 10 && intermediate > -1) || i === 11 || i > input.length) {
+    throw new RangeError("Maximum size reached");
+  }
+
   // Write the intermediate value to the "empty" slot
   // if the first slot is taken. Take the second slot
-  U32_VIEW[Number(i > 3)] = intermediate;
+  U32_VIEW[Number(i > 4)] = intermediate;
 
   return U64_VIEW[0];
 }
